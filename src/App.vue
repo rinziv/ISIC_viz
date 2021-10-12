@@ -6,11 +6,12 @@
         <hr/>
       </b-row>
       <b-row>
-        <b-form-select v-model="current_explanation_id" :options="explanations"
-                       text-field="id" value-field="id"></b-form-select>
-        <div class="mt-3">Selected: <strong>{{ current_explanation_id }}</strong></div>
+        <b-col>
+          <b-form-select v-model="current_explanation_id" :options="explanations"
+                         text-field="id" value-field="id"></b-form-select>
+        </b-col>
       </b-row>
-      <b-row>
+      <b-row class="mt-5">
         <b-col>
           <b-card no-body class="overflow-hidden" style="max-width: 540px;">
             <b-row no-gutters>
