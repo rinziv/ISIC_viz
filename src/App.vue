@@ -8,23 +8,30 @@
       <b-row>
         <b-col>
           <b-form-select v-model="current_explanation_id" :options="explanations"
-                         text-field="id" value-field="id"></b-form-select>
+                         value-field="id"></b-form-select>
         </b-col>
       </b-row>
       <b-row class="mt-5">
         <b-col>
+            <h3>Image to explain</h3>
           <b-card no-body class="overflow-hidden" style="max-width: 540px;">
             <b-row no-gutters>
               <b-col md="6">
                 <b-card-img :src="`explanations/Ex_${current_explanation_id}/img_to_explain_${current_explanation_id}.png`" alt="Image to explain" class="rounded-0"></b-card-img>
               </b-col>
               <b-col md="6">
-                <b-card-body title="Image to explain">
+                <b-card-body>
                   <b-card-text>
                     <ul>
-                      <li><b>id:</b>{{current_explanation.id}}</li>
-                      <li><b>Predicted class:</b>{{current_explanation.class}}</li>
-                      <li><b>Neighborhood:</b> {{current_explanation.neighborhood}}</li>
+<!--                      <li><b>id:</b>{{current_explanation.id}}</li>-->
+                      <li><b>Predicted class:</b> {{getClassFromId(current_explanation.class)}}</li>
+                      <li><b>Neighborhood:</b>
+                        <ul>
+                          <li v-for="e in Object.entries(current_explanation.neighborhood)" :key="e[0]">
+                            {{getClassFromId(e[0])}}: {{e[1]}}
+                          </li>
+                        </ul>
+                      </li>
                     </ul>
                   </b-card-text>
                 </b-card-body>
@@ -33,16 +40,17 @@
           </b-card>
         </b-col>
         <b-col>
+            <h3>Counter example image</h3>
           <b-card no-body class="overflow-hidden" style="max-width: 540px;">
             <b-row no-gutters>
               <b-col md="6">
                 <b-card-img :src="`explanations/Ex_${current_explanation_id}/counter_1.png`" alt="Counter example" class="rounded-0"></b-card-img>
               </b-col>
               <b-col md="6">
-                <b-card-body title="Counter example">
+                <b-card-body>
                   <b-card-text>
                     <ul>
-                      <li><b>Counter example class:</b>{{current_explanation.counter_class}}</li>
+                      <li><b>Counter example class:</b> {{getClassFromId(current_explanation.counter_class)}}</li>
                     </ul>
                   </b-card-text>
                 </b-card-body>
@@ -54,7 +62,7 @@
       <b-row class="mt-4">
         <b-col>
           <h2>Prototype images</h2>
-          <p>The following images are generated syntethically and they are classified with class <b>{{current_explanation.class}}</b> by the blackbox.</p>
+          <p>The following images are generated syntethically and they are classified with class <b>{{getClassFromId(current_explanation.class)}}</b> by the blackbox.</p>
         </b-col>
       </b-row>
       <b-row>
@@ -91,7 +99,10 @@ export default {
 
     d3.json('explanations/instances.json')
       .then(res => {
-        this.explanations = res;
+        this.explanations = res.map(e => ({
+          ...e,
+          text: `id:${e.id} - class:${this.getClassFromId(e.class)}`
+        }));
         this.current_explanation_id = res[0].id;
       })
   },
@@ -101,6 +112,11 @@ export default {
       const sel = this.explanations.find(e => e.id == id);
 
       return sel;
+    }
+  },
+  methods:{
+    getClassFromId: function(cid){
+      return this.classes[cid].name;
     }
   }
 }
