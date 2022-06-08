@@ -23,7 +23,7 @@
                 serve as
                 explanation for the decision of the AI System: a counter example image, that shows an
                 example
-                that the AI system classifies with a different label; and a set of 4 prototypes showing
+                that the AI system classifies with a different label; and a set of 4 exemplars showing
                 images
                 with the same classification as the original one.
               </p>
@@ -103,7 +103,7 @@
       </b-row>
       <b-row class="mt-5">
         <b-col>
-          <h4>Prototype images</h4>
+          <h4>Exemplar images</h4>
           <p>The following images are generated syntethically and they are classified with class
             <b>{{ getClassFromId(current_explanation.class) }}</b>
             by the blackbox.</p>
@@ -115,7 +115,7 @@
           <b-img thumbnail
                  fluid
                  :src="`explanations/Ex_${current_explanation_id}/proto_${i}.png`"
-                 :alt="`Prototype Image ${i}`"></b-img>
+                 :alt="`Exemplar Image ${i}`"></b-img>
         </b-col>
       </b-row>
       <div class="border-top p-5">
