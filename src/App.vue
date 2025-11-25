@@ -51,7 +51,7 @@
             <b-row no-gutters>
               <b-col md="6">
                 <b-card-img
-                    :src="`explanations/Ex_${current_explanation_id}/img_to_explain_${current_explanation_id}.png`"
+                    :src="`${publicPath}explanations/Ex_${current_explanation_id}/img_to_explain_${current_explanation_id}.png`"
                     alt="Image to explain"
                     class="rounded-0"></b-card-img>
               </b-col>
@@ -82,7 +82,7 @@
                   style="max-width: 540px;">
             <b-row no-gutters>
               <b-col md="6">
-                <b-card-img :src="`explanations/Ex_${current_explanation_id}/counter_1.png`"
+                <b-card-img :src="`${publicPath}explanations/Ex_${current_explanation_id}/counter_1.png`"
                             alt="Counter example"
                             class="rounded-0"></b-card-img>
               </b-col>
@@ -114,7 +114,7 @@
                :key="i">
           <b-img thumbnail
                  fluid
-                 :src="`explanations/Ex_${current_explanation_id}/proto_${i}.png`"
+                 :src="`${publicPath}explanations/Ex_${current_explanation_id}/proto_${i}.png`"
                  :alt="`Exemplar Image ${i}`"></b-img>
         </b-col>
       </b-row>
@@ -171,11 +171,11 @@
                align-h="center">
           <b-col class="text-right border-right">
             <img class="mr-4"
-                 src="img/xai_logo_color@2x.png"
+                 :src="`${publicPath}img/xai_logo_color@2x.png`"
                  alt=""
                  height="55px">
             <img class="mr-4"
-                 src="img/logo_ai4eu.png"
+                 :src="`${publicPath}img/logo_ai4eu.png`"
                  alt=""
                  height="45px">
           </b-col>
@@ -204,7 +204,7 @@ export default {
     }
   },
   mounted() {
-    d3.csv('classes.csv')
+    d3.csv(this.publicPath + 'classes.csv')
         .then(res => {
           const cls = {};
           res.forEach(r => {
@@ -213,7 +213,7 @@ export default {
           this.classes = cls;
         });
 
-    d3.json('explanations/instances.json')
+    d3.json(this.publicPath + 'explanations/instances.json')
         .then(res => {
           this.explanations = res.map(e => ({
             ...e,
@@ -223,6 +223,9 @@ export default {
         })
   },
   computed: {
+    publicPath: function () {
+      return process.env.BASE_URL || '/';
+    },
     current_explanation: function () {
       const id = this.current_explanation_id;
       const sel = this.explanations.find(e => e.id == id);

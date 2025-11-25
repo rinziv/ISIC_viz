@@ -15,6 +15,16 @@ npm run serve
 npm run build
 ```
 
+### Deploying to a subdirectory
+
+To deploy the application to a subdirectory (e.g., `http://mydomain/projects/isic_viz`), set the `BASE_URL` environment variable when building:
+
+```bash
+BASE_URL=/projects/isic_viz/ npm run build
+```
+
+**Note:** The `BASE_URL` must include both a leading and trailing slash.
+
 ### Lints and fixes files
 ```
 npm run lint
