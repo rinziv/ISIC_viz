@@ -23,6 +23,12 @@ To deploy the application to a subdirectory (e.g., `http://mydomain/projects/isi
 BASE_URL=/projects/isic_viz/ npm run build
 ```
 
+### Using legacy Node.js SSH
+
+```bash
+NODE_OPTIONS=--openssl-legacy-provider npm run build
+```
+
 **Note:** The `BASE_URL` must include both a leading and trailing slash.
 
 ### Lints and fixes files
