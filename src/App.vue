@@ -224,7 +224,7 @@ export default {
   },
   computed: {
     publicPath: function () {
-      return process.env.BASE_URL;
+      return process.env.BASE_URL || '/';
     },
     current_explanation: function () {
       const id = this.current_explanation_id;
